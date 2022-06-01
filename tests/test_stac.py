@@ -1,30 +1,37 @@
-import unittest
+import requests
 
-from stactools.ephemeral import stac
+from stactools.bingbuildings import stac
 
 
-class StacTest(unittest.TestCase):
-    def test_create_collection(self) -> None:
-        # Write tests for each for the creation of a STAC Collection
-        # Create the STAC Collection...
-        collection = stac.create_collection()
-        collection.set_self_href("")
+def test_create_item() -> None:
+    token = requests.get(
+        "https://planetarycomputer-staging.microsoft.com/api/sas/v1/token/bingmlbuildings/footprints"  # noqa: E501
+    ).json()["token"]
+    asset_href = (
+        "abfs://footprints/geo/2022-05-25/ml-buildings.parquet/RegionName=Abyei/"
+    )
 
-        # Check that it has some required attributes
-        self.assertEqual(collection.id, "my-collection-id")
-        # self.assertEqual(collection.other_attr...
+    item = stac.create_item(
+        asset_href,
+        asset_extra_fields={
+            "table:storage_options": {"account_name": "bingmlbuildings"}
+        },
+        storage_options={"account_name": "bingmlbuildings", "credential": token},
+    )
+    item.validate()
 
-        # Validate
-        collection.validate()
+    assert item.id == "Abyei"
+    assert item.bbox
+    assert item.geometry
+    assert item.assets["data"].to_dict() == {
+        "href": "abfs://footprints/geo/2022-05-25/ml-buildings.parquet/RegionName=Abyei/",
+        "roles": ["data"],
+        "title": "Parquet dataset with the building footprints.",
+        "type": "application/x-parquet",
+    }
 
-    def test_create_item(self) -> None:
-        # Write tests for each for the creation of STAC Items
-        # Create the STAC Item...
-        item = stac.create_item("/path/to/asset.tif")
-
-        # Check that it has some required attributes
-        self.assertEqual(item.id, "my-item-id")
-        # self.assertEqual(item.other_attr...
-
-        # Validate
-        item.validate()
+    assert item.properties["datetime"] == "2022-05-25T05:00:00Z"
+    assert item.properties["table:columns"] == [
+        {"name": "wkbBuilding", "type": "byte_array"}
+    ]
+    assert item.properties["table:row_count"] == 11

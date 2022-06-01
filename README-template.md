@@ -1,16 +1,16 @@
-# stactools-ephemeral
+# stactools-bingbuildings
 
-[![PyPI](https://img.shields.io/pypi/v/stactools-ephemeral)](https://pypi.org/project/stactools-ephemeral/)
+[![PyPI](https://img.shields.io/pypi/v/stactools-bingbuildings)](https://pypi.org/project/stactools-bingbuildings/)
 
-- Name: ephemeral
-- Package: `stactools.ephemeral`
-- PyPI: https://pypi.org/project/stactools-ephemeral/
+- Name: bingbuildings
+- Package: `stactools.bingbuildings`
+- PyPI: https://pypi.org/project/stactools-bingbuildings/
 - Owner: @githubusername
 - Dataset homepage: http://example.com
 - STAC extensions used:
   - [proj](https://github.com/stac-extensions/projection/)
 - Extra fields:
-  - `ephemeral:custom`: A custom attribute
+  - `bingbuildings:custom`: A custom attribute
 
 A short description of the package and its usage.
 
@@ -21,7 +21,7 @@ A short description of the package and its usage.
 
 ## Installation
 ```shell
-pip install stactools-ephemeral
+pip install stactools-bingbuildings
 ```
 
 ## Command-line Usage
@@ -29,10 +29,10 @@ pip install stactools-ephemeral
 Description of the command line functions
 
 ```shell
-$ stac ephemeral create-item source destination
+$ stac bingbuildings create-item source destination
 ```
 
-Use `stac ephemeral --help` to see all subcommands and options.
+Use `stac bingbuildings --help` to see all subcommands and options.
 
 ## Contributing
 
