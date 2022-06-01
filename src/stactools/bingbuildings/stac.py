@@ -15,6 +15,7 @@ from pystac import (
     Extent,
     Item,
     Link,
+    MediaType,
     Provider,
     ProviderRole,
     RelType,
@@ -24,6 +25,11 @@ from pystac import (
 from pystac.extensions.item_assets import ItemAssetsExtension
 
 logger = logging.getLogger(__name__)
+
+ASSET_TITLE = "Building Footprints"
+ASSET_DESCRIPTION = "Parquet dataset with the building footprints for this region."
+# TODO: generalize to other storage
+ASSET_EXTRA_FIELDS = {"table:storage_options": "bingmlbuildings"}
 
 
 def create_collection() -> Collection:
@@ -46,7 +52,6 @@ def create_collection() -> Collection:
         )
     ]
 
-    # Time must be in UTC
     start_datetime = datetime(2014, 1, 1, tzinfo=timezone.utc)
 
     extent = Extent(
@@ -62,19 +67,42 @@ def create_collection() -> Collection:
             title="ODbL-1.0 License",
         )
     ]
+    keywords = [
+        "Bing Maps",
+        "Buildings",
+        "geoparquet",
+    ]
 
     collection = Collection(
         id="bing-buildings",
         title="Bing Building Footprints",
-        description="Machine-learning detected building footprints. The underlying imagery is from Bing Maps including Maxar and Airbus imagery.",  # noqa: E501
+        description="Machine-learning detected building footprints. The underlying imagery is from Bing Maps and includes imagery from Maxar and Airbus.",  # noqa: E501
         license="ODbL-1.0",
         providers=providers,
         extent=extent,
         catalog_type=CatalogType.RELATIVE_PUBLISHED,
     )
     collection.links = links
-    ext = ItemAssetsExtension.add_to(collection)
-    ext
+    collection.keywords = keywords
+    collection.add_asset(
+        "thumbnail",
+        Asset(
+            "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/images/footprints-sample.png",  # noqa: E501
+            title="Thumbnail",
+            media_type=MediaType.PNG,
+        ),
+    )
+
+    ItemAssetsExtension.add_to(collection)
+    collection.extra_fields["item_assets"] = {
+        "data": {
+            "type": stac_table.PARQUET_MEDIA_TYPE,
+            "title": ASSET_TITLE,
+            "roles": ["data"],
+            "description": ASSET_DESCRIPTION,
+            **ASSET_EXTRA_FIELDS,
+        }
+    }
 
     return collection
 
@@ -141,16 +169,9 @@ def create_item(
     )
     assert isinstance(item, Item)
 
-    # Add an asset to the item (COG for example)
-    item.add_asset(
-        "data",
-        Asset(
-            href=asset_href,
-            media_type=stac_table.PARQUET_MEDIA_TYPE,
-            roles=["data"],
-            title="Parquet dataset with the building footprints.",
-        ),
-    )
+    # TODO: make configurable upstream
+    item.assets["data"].title = ASSET_TITLE
+    item.assets["data"].description = ASSET_DESCRIPTION
 
     # TODO: fix upstream
     # TODO: simplify!
