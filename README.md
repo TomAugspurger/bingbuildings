@@ -5,14 +5,14 @@
 - Name: bingbuildings
 - Package: `stactools.bingbuildings`
 - PyPI: https://pypi.org/project/stactools-bingbuildings/
-- Owner: @githubusername
+- Owner: @TomAugspurger
 - Dataset homepage: http://example.com
 - STAC extensions used:
-  - [proj](https://github.com/stac-extensions/projection/)
+  - [table](https://github.com/stac-extensions/table/)
 - Extra fields:
-  - `bingbuildings:custom`: A custom attribute
+  - `bingbuildings:region`: The region covered by an item.
 
-A short description of the package and its usage.
+This package generates STAC items for the Bing Maps building footprints dataset.
 
 ## STAC Examples
 
