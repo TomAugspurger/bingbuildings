@@ -169,6 +169,10 @@ def create_item(
     )
     assert isinstance(item, Item)
 
+    # TODO: why is proj stuff still here? Fix upstream
+    del item.properties["proj:bbox"]
+    del item.properties["proj:geometry"]
+
     # TODO: make configurable upstream
     item.assets["data"].title = ASSET_TITLE
     item.assets["data"].description = ASSET_DESCRIPTION

@@ -45,3 +45,4 @@ def test_create_item() -> None:
         {"name": "wkbBuilding", "type": "byte_array"}
     ]
     assert item.properties["table:row_count"] == 11
+    assert "proj:bbox" not in item.properties
