@@ -42,7 +42,7 @@ def create_collection() -> Collection:
         Provider(
             name="Microsoft",
             roles=[ProviderRole.PRODUCER, ProviderRole.PROCESSOR, ProviderRole.HOST],
-            url="https://github.com/stac-utils/stactools",
+            url="https://planetarycomputer.microsoft.com",
         )
     ]
 
