@@ -6,62 +6,40 @@
     "title": "Building footprints",
     "description": "Parquet dataset with the building footprints",
     "msbuildings:region": "Abyei",
+    "start_datetime": "2016-03-31T00:00:00+00:00",
+    "end_datetime": "2016-06-20T00:00:00+00:00",
     "table:columns": [
       {
-        "name": "wkbBuilding",
+        "name": "geometry",
         "type": "byte_array"
       }
     ],
-    "table:row_count": 11,
-    "datetime": "2022-05-25T05:00:00Z"
+    "datetime": null,
+    "table:row_count": 171
   },
   "geometry": {
     "type": "Polygon",
     "coordinates": [
       [
         [
-          28.869886078847014,
-          9.738629372329925
+          28.99859161,
+          9.6385081
         ],
         [
-          28.869845864887132,
-          9.738630237808096
+          28.99859161,
+          10.16458494
         ],
         [
-          28.848480912096647,
-          9.852148766572668
+          28.83081813,
+          10.16458494
         ],
         [
-          28.913120362159006,
-          10.02345085133743
+          28.83081813,
+          9.6385081
         ],
         [
-          28.971992574703897,
-          10.022293386228753
-        ],
-        [
-          28.972036490101335,
-          10.022273031781808
-        ],
-        [
-          28.96686565424548,
-          9.80022874092596
-        ],
-        [
-          28.96686366702565,
-          9.800178599240695
-        ],
-        [
-          28.966693745813032,
-          9.799899266830394
-        ],
-        [
-          28.930774449401607,
-          9.764147018440227
-        ],
-        [
-          28.869886078847014,
-          9.738629372329925
+          28.99859161,
+          9.6385081
         ]
       ]
     ]
@@ -69,7 +47,7 @@
   "links": [],
   "assets": {
     "data": {
-      "href": "abfs://footprints/geo/2022-05-25/ml-buildings.parquet/RegionName=Abyei/",
+      "href": "abfs://footprints/sample/2022-06-01/ml-buildings.parquet/RegionName=Abyei/",
       "type": "application/x-parquet",
       "title": "Building Footprints",
       "description": "Parquet dataset with the building footprints for this region.",
@@ -82,10 +60,10 @@
     }
   },
   "bbox": [
-    28.848480912096647,
-    9.738629372329925,
-    28.972036490101335,
-    10.02345085133743
+    28.83081813,
+    9.6385081,
+    28.99859161,
+    10.16458494
   ],
   "stac_extensions": [
     "https://stac-extensions.github.io/table/v1.2.0/schema.json"
