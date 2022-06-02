@@ -31,6 +31,9 @@ def test_create_item() -> None:
     assert item.id == "Abyei"
     assert item.bbox
     assert item.geometry
+    assert item.datetime is None
+    assert item.properties["start_datetime"] == "2016-03-31T00:00:00+00:00"
+    assert item.properties["end_datetime"] == "2016-06-20T00:00:00+00:00"
     assert item.assets["data"].to_dict() == {
         "href": "abfs://footprints/geo/2022-05-25/ml-buildings.parquet/RegionName=Abyei/",
         "roles": ["data"],
@@ -40,9 +43,8 @@ def test_create_item() -> None:
         "table:storage_options": {"account_name": "bingmlbuildings"},
     }
 
-    assert item.properties["datetime"] == "2022-05-25T05:00:00Z"
     assert item.properties["table:columns"] == [
         {"name": "wkbBuilding", "type": "byte_array"}
     ]
-    assert item.properties["table:row_count"] == 11
+    assert item.properties["table:row_count"] == 171
     assert "proj:bbox" not in item.properties

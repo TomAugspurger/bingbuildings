@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import dataclasses
+import functools
+import importlib.resources
+import json
 import logging
 from datetime import datetime, timezone
 from typing import Any
@@ -30,6 +33,15 @@ ASSET_TITLE = "Building Footprints"
 ASSET_DESCRIPTION = "Parquet dataset with the building footprints for this region."
 # TODO: generalize to other storage
 ASSET_EXTRA_FIELDS = {"table:storage_options": "bingmlbuildings"}
+
+
+@functools.lru_cache
+def get_data() -> dict[str, Any]:
+    result = json.load(
+        importlib.resources.open_text("stactools.msbuildings", "data.json")
+    )
+    assert isinstance(result, dict)
+    return result
 
 
 def create_collection() -> Collection:
@@ -144,18 +156,27 @@ def create_item(
     """
     parts = PathParts(asset_href)
 
+    data = get_data()[parts.region]
     properties = {
         "title": "Building footprints",
         "description": "Parquet dataset with the building footprints",
         "msbuildings:region": parts.region,
+        "start_datetime": data["MinCaptureDate"],
+        "end_datetime": data["MaxCaptureDate"],
     }
+    geom = shapely.geometry.box(
+        data["MinCentroidLongitude"],
+        data["MinCentroidLatitude"],
+        data["MaxCentroidLongitude"],
+        data["MaxCentroidLatitude"],
+    )
 
     template = Item(
         id=parts.region,
         properties=properties,
-        geometry=None,
-        bbox=None,
-        datetime=parts.datetime,
+        geometry=shapely.geometry.mapping(geom),
+        bbox=list(geom.bounds),
+        datetime=None,
         stac_extensions=[],
     )
     item = stac_table.generate(
@@ -163,15 +184,14 @@ def create_item(
         template,
         storage_options=storage_options,
         asset_extra_fields=asset_extra_fields,
-        infer_bbox=True,
-        infer_geometry=True,
+        infer_bbox=False,
+        infer_geometry=False,
         proj=False,
+        count_rows=False,
     )
     assert isinstance(item, Item)
 
-    # TODO: why is proj stuff still here? Fix upstream
-    del item.properties["proj:bbox"]
-    del item.properties["proj:geometry"]
+    item.properties["table:row_count"] = data["Count"]
 
     # TODO: make configurable upstream
     item.assets["data"].title = ASSET_TITLE
