@@ -143,10 +143,7 @@ def create_item(
 ) -> Item:
     """Create a STAC Item
 
-    This function should include logic to extract all relevant metadata from an
-    asset, metadata asset, and/or a constants.py file.
-
-    See `Item<https://pystac.readthedocs.io/en/latest/api.html#item>`_.
+    For
 
     Args:
         asset_href (str): The HREF pointing to an asset associated with the item
@@ -156,27 +153,40 @@ def create_item(
     """
     parts = PathParts(asset_href)
 
-    data = get_data()[parts.region]
+    data = get_data().get(parts.region, {})
+
+    start_datetime = data.get("MinCaptureDate")
+    end_datetime = data.get("MaxCaptureDate")
+
+    has_data = bool(data)
     properties = {
         "title": "Building footprints",
         "description": "Parquet dataset with the building footprints",
         "msbuildings:region": parts.region,
-        "start_datetime": data["MinCaptureDate"],
-        "end_datetime": data["MaxCaptureDate"],
     }
-    geom = shapely.geometry.box(
-        data["MinCentroidLongitude"],
-        data["MinCentroidLatitude"],
-        data["MaxCentroidLongitude"],
-        data["MaxCentroidLatitude"],
-    )
+    if has_data:
+        datetime = None
+        geom = shapely.geometry.box(
+            data["MinCentroidLongitude"],
+            data["MinCentroidLatitude"],
+            data["MaxCentroidLongitude"],
+            data["MaxCentroidLatitude"],
+        )
+        geometry = shapely.geometry.mapping(geom)
+        bbox = list(geom.bounds)
+        properties.update(
+            {"start_datetime": start_datetime, "end_datetime": end_datetime}
+        )
+    else:
+        datetime = parts.datetime
+        geometry = bbox = None
 
     template = Item(
         id=parts.region,
         properties=properties,
-        geometry=shapely.geometry.mapping(geom),
-        bbox=list(geom.bounds),
-        datetime=None,
+        geometry=geometry,
+        bbox=bbox,
+        datetime=datetime,
         stac_extensions=[],
     )
     item = stac_table.generate(
@@ -184,14 +194,17 @@ def create_item(
         template,
         storage_options=storage_options,
         asset_extra_fields=asset_extra_fields,
-        infer_bbox=False,
+        infer_bbox=not has_data,
         infer_geometry=False,
         proj=False,
-        count_rows=False,
+        count_rows=not has_data,
     )
     assert isinstance(item, Item)
 
-    item.properties["table:row_count"] = data["Count"]
+    if has_data:
+        item.properties["table:row_count"] = data["Count"]
+    else:
+        item.properties.pop("proj:bbox")
 
     # TODO: make configurable upstream
     item.assets["data"].title = ASSET_TITLE
