@@ -197,12 +197,4 @@ def create_item(
     item.assets["data"].title = ASSET_TITLE
     item.assets["data"].description = ASSET_DESCRIPTION
 
-    # TODO: fix upstream
-    # TODO: simplify!
-    item.geometry = shapely.geometry.mapping(
-        shapely.geometry.shape(item.geometry).convex_hull
-    )
-
-    # TODO: fix upstream
-
     return item
