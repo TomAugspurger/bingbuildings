@@ -1,6 +1,6 @@
 import requests
 
-from stactools.bingbuildings import stac
+from stactools.msbuildings import stac
 
 
 def test_collection() -> None:

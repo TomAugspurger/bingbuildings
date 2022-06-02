@@ -1,16 +1,16 @@
-# stactools-bingbuildings
+# stactools-msbuildings
 
-[![PyPI](https://img.shields.io/pypi/v/stactools-bingbuildings)](https://pypi.org/project/stactools-bingbuildings/)
+[![PyPI](https://img.shields.io/pypi/v/stactools-msbuildings)](https://pypi.org/project/stactools-msbuildings/)
 
-- Name: bingbuildings
-- Package: `stactools.bingbuildings`
-- PyPI: https://pypi.org/project/stactools-bingbuildings/
+- Name: msbuildings
+- Package: `stactools.msbuildings`
+- PyPI: https://pypi.org/project/stactools-msbuildings/
 - Owner: @TomAugspurger
 - Dataset homepage: http://example.com
 - STAC extensions used:
   - [table](https://github.com/stac-extensions/table/)
 - Extra fields:
-  - `bingbuildings:region`: The region covered by an item.
+  - `msbuildings:region`: The region covered by an item.
 
 This package generates STAC items for the Bing Maps building footprints dataset.
 
@@ -21,7 +21,7 @@ This package generates STAC items for the Bing Maps building footprints dataset.
 
 ## Installation
 ```shell
-pip install stactools-bingbuildings
+pip install stactools-msbuildings
 ```
 
 ## Command-line Usage
@@ -29,10 +29,10 @@ pip install stactools-bingbuildings
 Description of the command line functions
 
 ```shell
-$ stac bingbuildings create-item source destination
+$ stac msbuildings create-item source destination
 ```
 
-Use `stac bingbuildings --help` to see all subcommands and options.
+Use `stac msbuildings --help` to see all subcommands and options.
 
 ## Contributing
 

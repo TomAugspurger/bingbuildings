@@ -147,7 +147,7 @@ def create_item(
     properties = {
         "title": "Building footprints",
         "description": "Parquet dataset with the building footprints",
-        "bingbuildings:region": parts.region,
+        "msbuildings:region": parts.region,
     }
 
     template = Item(

@@ -1,8 +1,8 @@
 import unittest
 
-import stactools.bingbuildings
+import stactools.msbuildings
 
 
 class TestModule(unittest.TestCase):
     def test_version(self) -> None:
-        self.assertIsNotNone(stactools.bingbuildings.__version__)
+        self.assertIsNotNone(stactools.msbuildings.__version__)

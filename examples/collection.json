@@ -12,7 +12,7 @@
     },
     {
       "rel": "self",
-      "href": "/home/taugspurger/src/stactools-packages/bingbuildings/examples/collection.json",
+      "href": "/home/taugspurger/src/stactools-packages/msbuildings/examples/collection.json",
       "type": "application/json"
     }
   ],

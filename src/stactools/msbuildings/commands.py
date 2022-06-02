@@ -3,22 +3,22 @@ import logging
 import click
 from click import Command, Group
 
-from stactools.bingbuildings import stac
+from stactools.msbuildings import stac
 
 logger = logging.getLogger(__name__)
 
 
-def create_bingbuildings_command(cli: Group) -> Command:
-    """Creates the stactools-bingbuildings command line utility."""
+def create_msbuildings_command(cli: Group) -> Command:
+    """Creates the stactools-msbuildings command line utility."""
 
     @cli.group(
-        "bingbuildings",
-        short_help=("Commands for working with stactools-bingbuildings"),
+        "msbuildings",
+        short_help=("Commands for working with stactools-msbuildings"),
     )
-    def bingbuildings() -> None:
+    def msbuildings() -> None:
         pass
 
-    @bingbuildings.command(
+    @msbuildings.command(
         "create-collection",
         short_help="Creates a STAC collection",
     )
@@ -37,7 +37,7 @@ def create_bingbuildings_command(cli: Group) -> Command:
 
         return None
 
-    @bingbuildings.command("create-item", short_help="Create a STAC item")
+    @msbuildings.command("create-item", short_help="Create a STAC item")
     @click.argument("source")
     @click.argument("destination")
     def create_item_command(source: str, destination: str) -> None:
@@ -53,4 +53,4 @@ def create_bingbuildings_command(cli: Group) -> Command:
 
         return None
 
-    return bingbuildings
+    return msbuildings

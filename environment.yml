@@ -1,4 +1,4 @@
-name: stactools-bingbuildings
+name: stactools-msbuildings
 channels:
   - conda-forge
   - defaults

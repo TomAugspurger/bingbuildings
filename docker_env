@@ -1,7 +1,7 @@
 DOCKER_REGISTRY=ghcr.io
 DOCKER_ORG=stactools-packages
-DOCKER_REPO=bingbuildings
+DOCKER_REPO=msbuildings
 DOCKER_TAG=local
 DOCKER_TAG_DEV=local-dev
-DOCKER_WORKDIR=/opt/stactools-bingbuildings
-DOCKER_NAMESPACE_PACKAGE_DIR=stactools/bingbuildings
+DOCKER_WORKDIR=/opt/stactools-msbuildings
+DOCKER_NAMESPACE_PACKAGE_DIR=stactools/msbuildings
