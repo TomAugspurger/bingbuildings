@@ -32,11 +32,16 @@ logger = logging.getLogger(__name__)
 ASSET_TITLE = "Building Footprints"
 ASSET_DESCRIPTION = "Parquet dataset with the building footprints for this region."
 # TODO: generalize to other storage
-ASSET_EXTRA_FIELDS = {"table:storage_options": "bingmlbuildings"}
+ASSET_EXTRA_FIELDS = {"table:storage_options": {"account_name": "bingmlbuildings"}}
 
 
 @functools.lru_cache
 def get_data() -> dict[str, Any]:
+    """
+    Lookup metadata from a file provided by the footprints team.
+
+    See `scripts/make_data.py`.
+    """
     result = json.load(
         importlib.resources.open_text("stactools.msbuildings", "data.json")
     )
@@ -44,7 +49,7 @@ def get_data() -> dict[str, Any]:
     return result
 
 
-def create_collection() -> Collection:
+def create_collection(extra_fields: dict[str, Any] | None) -> Collection:
     """Create a STAC Collection
 
     This function includes logic to extract all relevant metadata from
@@ -115,6 +120,9 @@ def create_collection() -> Collection:
             **ASSET_EXTRA_FIELDS,
         }
     }
+
+    if extra_fields:
+        collection.extra_fields.update(extra_fields)
 
     return collection
 

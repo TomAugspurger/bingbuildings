@@ -1,4 +1,8 @@
+from __future__ import annotations
+
+import json
 import logging
+import pathlib
 
 import click
 from click import Command, Group
@@ -23,19 +27,24 @@ def create_msbuildings_command(cli: Group) -> Command:
         short_help="Creates a STAC collection",
     )
     @click.argument("destination")
-    def create_collection_command(destination: str) -> None:
+    @click.option(
+        "--extra-field",
+        default=None,
+        help="Key-value pairs to include in extra-fields",
+        multiple=True,
+    )
+    def create_collection_command(destination: str, extra_field: str | None) -> None:
         """Creates a STAC Collection
 
         Args:
             destination (str): An HREF for the Collection JSON
         """
-        collection = stac.create_collection()
+        extra_fields_d = dict(k.split("=") for k in extra_field)  # type: ignore
 
-        collection.set_self_href(destination)
+        collection = stac.create_collection(extra_fields=extra_fields_d)
 
-        collection.save_object()
-
-        return None
+        # collection.set_self_href(destination)
+        pathlib.Path(destination).write_text(json.dumps(collection.to_dict(), indent=2))
 
     @msbuildings.command("create-item", short_help="Create a STAC item")
     @click.argument("source")

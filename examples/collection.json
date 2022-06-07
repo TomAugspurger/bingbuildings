@@ -9,11 +9,6 @@
       "href": "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/LICENSE",
       "type": "text/html",
       "title": "ODbL-1.0 License"
-    },
-    {
-      "rel": "self",
-      "href": "/home/taugspurger/src/stactools-packages/msbuildings/examples/collection.json",
-      "type": "application/json"
     }
   ],
   "stac_extensions": [
@@ -27,7 +22,9 @@
         "data"
       ],
       "description": "Parquet dataset with the building footprints for this region.",
-      "table:storage_options": "bingmlbuildings"
+      "table:storage_options": {
+        "account_name": "bingmlbuildings"
+      }
     }
   },
   "title": "Bing Building Footprints",
