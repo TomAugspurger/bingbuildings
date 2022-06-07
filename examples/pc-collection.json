@@ -1,0 +1,78 @@
+{
+  "type": "Collection",
+  "id": "bing-buildings",
+  "stac_version": "1.0.0",
+  "description": "Machine-learning detected building footprints. The underlying imagery is from Bing Maps and includes imagery from Maxar and Airbus.",
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/LICENSE",
+      "type": "text/html",
+      "title": "ODbL-1.0 License"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/item-assets/v1.0.0/schema.json"
+  ],
+  "item_assets": {
+    "data": {
+      "type": "application/x-parquet",
+      "title": "Building Footprints",
+      "roles": [
+        "data"
+      ],
+      "description": "Parquet dataset with the building footprints for this region.",
+      "table:storage_options": {
+        "account_name": "bingmlbuildings"
+      }
+    }
+  },
+  "msft:storage_account": "bingmlbuildings",
+  "msft:container": "footprints",
+  "msft:short_description": "Machine learning deteceted buildings footprints.",
+  "title": "Bing Building Footprints",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          90.0,
+          180.0,
+          -90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2014-01-01T00:00:00Z",
+          null
+        ]
+      ]
+    }
+  },
+  "license": "ODbL-1.0",
+  "keywords": [
+    "Bing Maps",
+    "Buildings",
+    "geoparquet"
+  ],
+  "providers": [
+    {
+      "name": "Microsoft",
+      "roles": [
+        "producer",
+        "processor",
+        "host"
+      ],
+      "url": "https://planetarycomputer.microsoft.com"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/images/footprints-sample.png",
+      "type": "image/png",
+      "title": "Thumbnail"
+    }
+  }
+}
