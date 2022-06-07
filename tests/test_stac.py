@@ -30,7 +30,7 @@ def test_create_item() -> None:
     )
     item.validate()
 
-    assert item.id == "Abyei"
+    assert item.id == "Abyei_2022-06-01"
     assert item.bbox
     assert item.geometry
     assert item.datetime is None
@@ -69,7 +69,7 @@ def test_create_item_no_metadata() -> None:
     )
     item.validate()
 
-    assert item.id == "Canada"
+    assert item.id == "Canada_2022-06-01"
     assert item.bbox
     assert item.geometry
     assert item.datetime == datetime.datetime(

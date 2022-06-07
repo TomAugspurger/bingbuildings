@@ -49,7 +49,7 @@ def get_data() -> dict[str, Any]:
     return result
 
 
-def create_collection(extra_fields: dict[str, Any] | None) -> Collection:
+def create_collection(extra_fields: dict[str, Any] | None = None) -> Collection:
     """Create a STAC Collection
 
     This function includes logic to extract all relevant metadata from
@@ -91,8 +91,8 @@ def create_collection(extra_fields: dict[str, Any] | None) -> Collection:
     ]
 
     collection = Collection(
-        id="bing-buildings",
-        title="Bing Building Footprints",
+        id="ms-buildings",
+        title="Microsoft Building Footprints",
         description="Machine-learning detected building footprints. The underlying imagery is from Bing Maps and includes imagery from Maxar and Airbus.",  # noqa: E501
         license="ODbL-1.0",
         providers=providers,
@@ -190,7 +190,7 @@ def create_item(
         geometry = bbox = None
 
     template = Item(
-        id=parts.region,
+        id="_".join([parts.region, parts.datetime.date().isoformat()]),
         properties=properties,
         geometry=geometry,
         bbox=bbox,
