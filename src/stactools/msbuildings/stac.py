@@ -49,7 +49,9 @@ def get_data() -> dict[str, Any]:
     return result
 
 
-def create_collection(extra_fields: dict[str, Any] | None = None) -> Collection:
+def create_collection(
+    description: str | None = None, extra_fields: dict[str, Any] | None = None
+) -> Collection:
     """Create a STAC Collection
 
     This function includes logic to extract all relevant metadata from
@@ -88,12 +90,20 @@ def create_collection(extra_fields: dict[str, Any] | None = None) -> Collection:
         "Bing Maps",
         "Buildings",
         "geoparquet",
+        "Microsoft",
+        "Footprint",
     ]
+
+    if description is None:
+        description = (
+            "Machine-learning detected building footprints. The underlying "
+            "imagery is from Bing Maps and includes imagery from Maxar and Airbus."
+        )
 
     collection = Collection(
         id="ms-buildings",
         title="Microsoft Building Footprints",
-        description="Machine-learning detected building footprints. The underlying imagery is from Bing Maps and includes imagery from Maxar and Airbus.",  # noqa: E501
+        description=description,  # noqa: E502
         license="ODbL-1.0",
         providers=providers,
         extent=extent,

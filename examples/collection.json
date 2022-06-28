@@ -1,6 +1,6 @@
 {
   "type": "Collection",
-  "id": "bing-buildings",
+  "id": "ms-buildings",
   "stac_version": "1.0.0",
   "description": "Machine-learning detected building footprints. The underlying imagery is from Bing Maps and includes imagery from Maxar and Airbus.",
   "links": [
@@ -27,7 +27,7 @@
       }
     }
   },
-  "title": "Bing Building Footprints",
+  "title": "Microsoft Building Footprints",
   "extent": {
     "spatial": {
       "bbox": [
@@ -52,7 +52,9 @@
   "keywords": [
     "Bing Maps",
     "Buildings",
-    "geoparquet"
+    "geoparquet",
+    "Microsoft",
+    "Footprint"
   ],
   "providers": [
     {

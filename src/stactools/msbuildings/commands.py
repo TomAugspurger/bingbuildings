@@ -27,13 +27,16 @@ def create_msbuildings_command(cli: Group) -> Command:
         short_help="Creates a STAC collection",
     )
     @click.argument("destination")
+    @click.option("--description", default=None, help="Collection description")
     @click.option(
         "--extra-field",
         default=None,
         help="Key-value pairs to include in extra-fields",
         multiple=True,
     )
-    def create_collection_command(destination: str, extra_field: str | None) -> None:
+    def create_collection_command(
+        destination: str, description: str | None = None, extra_field: str | None = None
+    ) -> None:
         """Creates a STAC Collection
 
         Args:
@@ -41,7 +44,9 @@ def create_msbuildings_command(cli: Group) -> Command:
         """
         extra_fields_d = dict(k.split("=") for k in extra_field)  # type: ignore
 
-        collection = stac.create_collection(extra_fields=extra_fields_d)
+        collection = stac.create_collection(
+            description=description, extra_fields=extra_fields_d
+        )
 
         # collection.set_self_href(destination)
         pathlib.Path(destination).write_text(json.dumps(collection.to_dict(), indent=2))
