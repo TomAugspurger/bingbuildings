@@ -24,7 +24,14 @@
       "description": "Parquet dataset with the building footprints for this region.",
       "table:storage_options": {
         "account_name": "bingmlbuildings"
-      }
+      },
+      "table:columns": [
+        {
+          "name": "geometry",
+          "type": "byte_array",
+          "description": "Building footprint polygons"
+        }
+      ]
     }
   },
   "msft:storage_account": "bingmlbuildings",
@@ -72,7 +79,7 @@
   ],
   "assets": {
     "thumbnail": {
-      "href": "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/images/footprints-sample.png",
+      "href": "https://ai4edatasetspublicassets.blob.core.windows.net/assets/pc_thumbnails/msbuildings-thumbnail.png",
       "type": "image/png",
       "title": "Thumbnail"
     }

@@ -31,8 +31,18 @@ logger = logging.getLogger(__name__)
 
 ASSET_TITLE = "Building Footprints"
 ASSET_DESCRIPTION = "Parquet dataset with the building footprints for this region."
+GEOMETRY_DESCRIPTION = "Building footprint polygons"
 # TODO: generalize to other storage
-ASSET_EXTRA_FIELDS = {"table:storage_options": {"account_name": "bingmlbuildings"}}
+ASSET_EXTRA_FIELDS = {
+    "table:storage_options": {"account_name": "bingmlbuildings"},
+    "table:columns": [
+        {
+            "name": "geometry",
+            "type": "byte_array",
+            "description": GEOMETRY_DESCRIPTION,
+        }
+    ],
+}
 
 
 @functools.lru_cache
@@ -114,7 +124,7 @@ def create_collection(
     collection.add_asset(
         "thumbnail",
         Asset(
-            "https://github.com/microsoft/GlobalMLBuildingFootprints/blob/main/images/footprints-sample.png",  # noqa: E501
+            "https://ai4edatasetspublicassets.blob.core.windows.net/assets/pc_thumbnails/msbuildings-thumbnail.png",  # noqa: E501
             title="Thumbnail",
             media_type=MediaType.PNG,
         ),
@@ -223,6 +233,8 @@ def create_item(
         item.properties["table:row_count"] = data["Count"]
     else:
         item.properties.pop("proj:bbox")
+
+    item.properties["table:columns"][0]["description"] = GEOMETRY_DESCRIPTION
 
     # TODO: make configurable upstream
     item.assets["data"].title = ASSET_TITLE
