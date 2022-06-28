@@ -46,7 +46,11 @@ def test_create_item() -> None:
     }
 
     assert item.properties["table:columns"] == [
-        {"name": "geometry", "type": "byte_array"}
+        {
+            "name": "geometry",
+            "type": "byte_array",
+            "description": "Building footprint polygons",
+        }
     ]
     assert item.properties["table:row_count"] == 171
     assert "proj:bbox" not in item.properties
@@ -85,7 +89,11 @@ def test_create_item_no_metadata() -> None:
     }
 
     assert item.properties["table:columns"] == [
-        {"name": "geometry", "type": "byte_array"}
+        {
+            "name": "geometry",
+            "type": "byte_array",
+            "description": "Building footprint polygons",
+        }
     ]
     assert item.properties["table:row_count"] == 590145
     assert "proj:bbox" not in item.properties
