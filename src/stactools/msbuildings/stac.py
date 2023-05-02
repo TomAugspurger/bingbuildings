@@ -150,18 +150,24 @@ def create_collection(
 @dataclasses.dataclass
 class PathParts:
     """
-    Parse a path like "footprints/geo/2022-05-25/ml-buildings.parquet/RegionName=Abyei/"
+    Parse a path like
+
+    footprints/delta/2023-04-25/ml-buildings.parquet/RegionName=Abyei/quadkey=122321003/
+
     into its component parts.
     """
 
     path: str
 
     def __post_init__(self) -> None:
-        region_part = self.path.rstrip("/").split("/")[-1]
-        datetime_part = self.path.rstrip("/").split("/")[-3]
+        split = self.path.rstrip("/").split("/")
+        region_part = split[-2]
+        datetime_part = split[-4]
+        quadkey_part = split[-1]
 
         self.region = region_part.split("=", 1)[-1]
         self.datetime = dateutil.parser.parse(datetime_part).astimezone(timezone.utc)
+        self.quadkey = int(quadkey_part.split("=")[1])
 
 
 def create_item(
@@ -191,6 +197,7 @@ def create_item(
         "title": "Building footprints",
         "description": "Parquet dataset with the building footprints",
         "msbuildings:region": parts.region,
+        "msbuildings:quadkey": parts.quadkey,
     }
     if has_data:
         datetime = None
@@ -210,7 +217,9 @@ def create_item(
         geometry = bbox = None
 
     template = Item(
-        id="_".join([parts.region, parts.datetime.date().isoformat()]),
+        id="_".join(
+            [parts.region, str(parts.quadkey), parts.datetime.date().isoformat()]
+        ),
         properties=properties,
         geometry=geometry,
         bbox=bbox,
