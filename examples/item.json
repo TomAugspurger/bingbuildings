@@ -1,45 +1,51 @@
 {
   "type": "Feature",
   "stac_version": "1.0.0",
-  "id": "Abyei",
+  "id": "Albania_120233211_2023-04-25",
   "properties": {
     "title": "Building footprints",
     "description": "Parquet dataset with the building footprints",
-    "msbuildings:region": "Abyei",
-    "start_datetime": "2016-03-31T00:00:00+00:00",
-    "end_datetime": "2016-06-20T00:00:00+00:00",
+    "msbuildings:region": "Albania",
+    "msbuildings:quadkey": 120233211,
+    "start_datetime": "2014-07-03T00:00:00+00:00",
+    "end_datetime": "2021-10-15T00:00:00+00:00",
     "table:columns": [
       {
         "name": "geometry",
-        "type": "byte_array"
+        "type": "byte_array",
+        "description": "Building footprint polygons"
+      },
+      {
+        "name": "meanHeight",
+        "type": "float"
       }
     ],
     "datetime": null,
-    "table:row_count": 171
+    "table:row_count": 1180766
   },
   "geometry": {
     "type": "Polygon",
     "coordinates": [
       [
         [
-          28.99859161,
-          9.6385081
+          21.06528385,
+          39.65129091
         ],
         [
-          28.99859161,
-          10.16458494
+          21.06528385,
+          42.60608841
         ],
         [
-          28.83081813,
-          10.16458494
+          19.27006701,
+          42.60608841
         ],
         [
-          28.83081813,
-          9.6385081
+          19.27006701,
+          39.65129091
         ],
         [
-          28.99859161,
-          9.6385081
+          21.06528385,
+          39.65129091
         ]
       ]
     ]
@@ -47,23 +53,20 @@
   "links": [],
   "assets": {
     "data": {
-      "href": "abfs://footprints/sample/2022-06-01/ml-buildings.parquet/RegionName=Abyei/",
+      "href": "az://footprints/delta/2023-04-25/ml-buildings.parquet/RegionName=Albania/quadkey=120233211/",
       "type": "application/x-parquet",
       "title": "Building Footprints",
       "description": "Parquet dataset with the building footprints for this region.",
-      "table:storage_options": {
-        "account_name": "bingmlbuildings"
-      },
       "roles": [
         "data"
       ]
     }
   },
   "bbox": [
-    28.83081813,
-    9.6385081,
-    28.99859161,
-    10.16458494
+    19.27006701,
+    39.65129091,
+    21.06528385,
+    42.60608841
   ],
   "stac_extensions": [
     "https://stac-extensions.github.io/table/v1.2.0/schema.json"
