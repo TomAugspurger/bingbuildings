@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import dateutil.parser
+import mercantile
 import shapely.geometry
 import stac_table
 from pystac import (
@@ -200,22 +201,21 @@ def create_item(
         "msbuildings:quadkey": parts.quadkey,
         "msbuildings:processing-date": parts.datetime.date().isoformat(),
     }
+
+    tile = mercantile.quadkey_to_tile(str(parts.quadkey))
+    bbox = mercantile.bounds(tile)
+    shape = shapely.geometry.box(*bbox)
+
+    geometry = shapely.geometry.mapping(shape)
+    bbox = list(shape.bounds)
+
     if has_data:
         datetime = None
-        geom = shapely.geometry.box(
-            data["MinCentroidLongitude"],
-            data["MinCentroidLatitude"],
-            data["MaxCentroidLongitude"],
-            data["MaxCentroidLatitude"],
-        )
-        geometry = shapely.geometry.mapping(geom)
-        bbox = list(geom.bounds)
         properties.update(
             {"start_datetime": start_datetime, "end_datetime": end_datetime}
         )
     else:
         datetime = parts.datetime
-        geometry = bbox = None
 
     template = Item(
         id="_".join(

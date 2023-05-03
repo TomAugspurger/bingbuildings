@@ -15,9 +15,7 @@ def test_create_item() -> None:
     token = requests.get(
         "https://planetarycomputer-staging.microsoft.com/api/sas/v1/token/bingmlbuildings/footprints"  # noqa: E501
     ).json()["token"]
-    asset_href = (
-        "abfs://footprints/delta/2023-04-25/ml-buildings.parquet/RegionName=Abyei/quadkey=122321003/"  # noqa: E501
-    )
+    asset_href = "abfs://footprints/delta/2023-04-25/ml-buildings.parquet/RegionName=Abyei/quadkey=122321003/"  # noqa: E501
 
     item = stac.create_item(
         asset_href,
@@ -56,3 +54,16 @@ def test_create_item() -> None:
     ]
     assert item.properties["table:row_count"] == 171
     assert "proj:bbox" not in item.properties
+    assert item.geometry == {
+        "coordinates": (
+            (
+                (29.53125, 9.795677582829734),
+                (29.53125, 10.487811882056686),
+                (28.828125, 10.487811882056686),
+                (28.828125, 9.795677582829734),
+                (29.53125, 9.795677582829734),
+            ),
+        ),
+        "type": "Polygon",
+    }
+    assert item.bbox == [28.828125, 9.795677582829734, 29.53125, 10.487811882056686]
