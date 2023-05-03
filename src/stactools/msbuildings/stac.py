@@ -198,6 +198,7 @@ def create_item(
         "description": "Parquet dataset with the building footprints",
         "msbuildings:region": parts.region,
         "msbuildings:quadkey": parts.quadkey,
+        "msbuildings:processing-date": parts.datetime.date().isoformat(),
     }
     if has_data:
         datetime = None
