@@ -36,6 +36,7 @@ def test_create_item() -> None:
     assert item.properties["end_datetime"] == "2016-06-20T00:00:00+00:00"
     assert item.properties["msbuildings:region"] == "Abyei"
     assert item.properties["msbuildings:quadkey"] == 122321003
+    assert item.properties["msbuildings:processing-date"] == "2023-04-25"
     assert item.assets["data"].to_dict() == {
         "href": "abfs://footprints/delta/2023-04-25/ml-buildings.parquet/RegionName=Abyei/quadkey=122321003/",  # noqa: E501
         "type": "application/x-parquet",
